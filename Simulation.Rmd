@@ -1,0 +1,143 @@
+---
+title: "Exercise 5, MLaRP Week 4"
+author: "Hanne Oberman"
+date: "11-11-2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(128)
+library(tidyr)
+library(ggplot2)
+library(knitr)
+library(dplyr)
+```
+
+# Simulate the Data
+
+Sample 100 samples from a standard normal distribution.
+
+```{r}
+# param
+numsim <- 100
+n <- 1000
+
+# generate data
+simulate.function <- function(numsim, n) {
+  data <- list()
+  for (i in 1:numsim) {
+    data[[i]] <- rnorm(n)
+  }
+  return(data)
+}
+
+data <- simulate.function(numsim = 100, n = 10)
+
+```
+
+# Calculate Sample Statistics
+
+For each of these samples, calculate the following statistics for the mean: 1) absolute bias; 2) standard error; 3) lower bound of the 95% confidence interval; and 4) upper bound of the 95% confidence interval.
+
+1) Absolute bias (AB) is calculated as
+$$
+AB = |\bar{x} - \mu|,
+$$
+where $\bar{x}$ is the sample mean, and $\mu$ is the population mean. In this example the poplation mean is known to be zero. Hence, the absolute bias is just the sample mean (minus the sign).
+
+2) To calculate standard errors, we need the sample variance, $s^2$. Sample variance is defined as 
+$$
+s^2 = \frac{\Sigma(x_i-\bar{x})^2}{n-1},
+$$
+where $x_i$ are individual observations, $\bar{x}$ and $n$ are sample mean and sample size, respectively. Then, take the square root of the sample variance to get the sample standard deviation:
+$$
+ s = \sqrt{s^2}.
+$$
+Finally, divide the sample standard deviation by the square root of the sample size to get the standard error:
+$$
+SE = \frac{s}{\sqrt{n}}.
+$$
+
+3) The lower bound of the 95% confidence interval is calulated by multiplying the standard error by the z-value of alpha divided by two, and subtracting this from the sample mean:
+$$
+\text{Lower bound (LB) } CI_{95\%} = \bar{x} - SE \times z_{\alpha/2}. 
+$$
+
+4) Similarly, we add the standard error times the z-value to the sample mean to get the upper bound of the 95% CI:
+
+$$
+\text{Upper bound (UB) } CI_{95\%} = \bar{x} + SE \times z_{\alpha/2}. 
+$$
+
+
+```{r}
+# evaluate simulations
+evaluate.function <- function(x, alpha = .05) {
+  z_value <- qnorm(p = (alpha / 2), lower.tail = F)
+  means <- mean(x)
+  bias <- abs(means)
+  se <- var(x) %>%
+    sqrt() / sqrt(length(x))
+  ci_low <- means - se * z_value
+  ci_up <- means + se * z_value
+  return(c(
+    mean = means,
+    bias = bias,
+    se = se,
+    ci_low = ci_low,
+    ci_up = ci_up
+  ))
+}
+
+# extract results
+result <- data %>%
+  sapply(evaluate.function) %>%
+  t() %>%
+  as.data.frame()
+
+result$cov <- result$ci_low <= 0 & result$ci_up >= 0
+```
+
+# Evaluate the Samples
+
+Create a plot that demonstrates the following
+
+“A replication of the procedure that generates a 95% confidence interval that is centered around the sample mean would cover the population value at least 95 out of 100 times” (Neyman, 1934)
+
+```{r}
+# plot results
+result %>%
+  ggplot(aes(
+    y = 1:numsim,
+    x = mean,
+    xmin = ci_low,
+    xmax = ci_up,
+    color = cov
+  )) +
+  geom_point() +
+  geom_errorbarh() +
+  geom_vline(xintercept = 0,
+             color = 'black',
+             linetype = 'dashed') +
+  xlab('Sample mean with 95% CI') +
+  ylab('Sample (simulation #)') + 
+  labs(color = 'Pop. mean covered?')
+
+```
+
+# Inspect a Subset of Samples
+
+Present a table containing all simulated samples for which the resulting confidence interval does not contain the population value.
+
+```{r}
+# extract simulations where CI does not cover the 'truth'
+result %>% 
+  mutate(sim = row.names(.)) %>% 
+  filter(cov == "FALSE") %>% 
+  select("Sample" = sim, "Mean" = mean, "SE" = se, "LB*" = ci_low, "UB*" = ci_up) %>% 
+  kable(format = 'html', digits = 2, align = 'lcccc')
+
+
+```
+*LB: lower bound of the 95% confidence interval; UB: lower bound of the 95% confidence interval.
