@@ -1,0 +1,18 @@
+---
+title: "Shiny app for MLaRP"
+output: html_notebook
+---
+
+
+
+```{r}
+library(naniar)
+library(mice)
+library(tidyverse)
+
+set.seed(11)
+airquality %>% ggplot(aes(x = Ozone, y = Solar.R)) +
+  geom_miss_point()
+
+```
+
