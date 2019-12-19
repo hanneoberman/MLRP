@@ -3,7 +3,7 @@ title: "Shiny app for MLaRP"
 output: html_notebook
 ---
 
-
+What kind of Shiny app to make?
 
 ```{r}
 library(naniar)
