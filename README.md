@@ -1,4 +1,9 @@
-# MLRP
-Coursework Markup Languages and Reproducible Programming
-- Small simulation study to show proficiency with Markdown
-- Shiny app to explore functionalities
+This repository serves as working directory for the course 'Markup Languages and Reproducible Programming' (Utrecht University). It contains the following folders:
+
+- `Simulation_study` | Small simulation study to show proficiency with Markdown.
+
+- `Shiny_app` | Elementary Shiny app to explore functionalities and lay foundation for `ShinyMICE` thesis project.
+
+Note. *This repository is only a showcase for educational purposes. The Shiny app is **not** a finished product.*
+
+-Hanne
