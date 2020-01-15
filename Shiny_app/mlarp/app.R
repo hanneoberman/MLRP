@@ -1,21 +1,18 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
+# Briefly Inspect Missingness Using R Shiny (BIMURS)
+# Shiny web application by Hanne Oberman. 
+# Developed as part of the course 'Markup Languages and Reproducible Programming.
+# Solely for the purpose of showcasing my abilities to program an app.
 
 library("shiny")
 library("mice")
 library("DT")
 library("naniar")
+library("rmarkdown")
 
 # define user interface
 ui <-
     navbarPage(
-        "Inspect missing data",
+        "Briefly Inspect Missingness Using R Shiny (BIMURS)",
         #sets basic virtual structure (layout function)
         tabPanel("Explore dataset",
                  sidebarLayout(
@@ -36,24 +33,31 @@ ui <-
                              choices = data(package = "mice")$results[, "Item"]
                          ),
                          actionButton("reset", "Reset"),
-                         # hr(),
-                         # fluidRow(column(4, verbatimTextOutput("value")))
                      ),
-                     mainPanel(DTOutput(#where to place the output table
-                         "table"))
+                     mainPanel(
+                         h2("Tabulated dataset"),
+                         h5("NB. Empty cells denote missing data points."),
+                         DTOutput("table"))
                  )),
         tabPanel(
             "Missingness pattern",
+            h2("Observed missingness pattern per variable"),
+            h5("NB. Observed data is blue, missing data is red."),
             plotOutput("md_pattern", height = "auto")
         ),
         navbarMenu(
             "More",
-            tabPanel("Summary", verbatimTextOutput(#where to place the output code
+            tabPanel(
+                "Summary", 
+                h2("Descriptive statistics per variable"),
+                h5("NB. Particularly the number of NA values is of interest."),
+                verbatimTextOutput(#where to place the output code
                 "summary")),
             tabPanel("About",
+                     h2("About the BIMURS app"),
                      fluidRow(
                          column(6,
-                                includeMarkdown("../about.md")),
+                                includeMarkdown("about.rmd")),
                          column(
                              3,
                              img(
@@ -112,6 +116,3 @@ server <- function(input, output, session) {
 }
 # construct and initiate
 shinyApp(ui, server)
-# use link in console to see in browser, when app is not closed yet
-
-# proceed here: https://mastering-shiny.org/basic-reactivity.html
