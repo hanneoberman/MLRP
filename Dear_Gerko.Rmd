@@ -9,11 +9,11 @@ Hoi Gerko,
 
 Bij dezen de benodigde documenten voor het afronden van de cursus Markup Languages and Reproducible Programming.
 
-- Mijn research repository is te vinden op [github.com/gerkovink/ShinyMICE](https://github.com/gerkovink/ShinyMICE/). Tevens vindt je daar mijn Markup manuscript ([NoteConvergence.Rnw](https://github.com/gerkovink/shinyMice/tree/master/2.ResearchReport/1.SimulationStudy/Writeup)).
+- Mijn research repository is te vinden op [github.com/gerkovink/ShinyMICE](https://github.com/gerkovink/ShinyMICE/). Tevens vindt je daar mijn Markup manuscript ([NoteConvergence.Rnw](https://github.com/gerkovink/shinyMice/tree/master/2.ResearchReport/1.SimulationStudy/Writeup/NoteConvergence.Rnw)).
 
 - Mijn persoonlijke pagina is [hanneoberman.github.io](https://hanneoberman.github.io/).
 
-- De Shiny app is gepubliceerd op [hanneoberman.shinyapps.io/mlarp]( https://hanneoberman.shinyapps.io/mlarp/) en de code kun je vinden op [github.com/hanneoberman/MLaRP](https://github.com/gerkovink/MLaRP/).
+- De Shiny app is gepubliceerd op [hanneoberman.shinyapps.io/mlarp](https://hanneoberman.shinyapps.io/mlarp/) en de code kun je vinden op [github.com/hanneoberman/MLRP](https://github.com/hanneoberman/MLRP/).
 
 - De presentatie staat al op de SurfDrive ([download hier](https://surfdrive.surf.nl/files/index.php/s/2rJYcImUkYEvIC9/download?path=%2FDocuments%20by%20students%2FHanne%20Oberman&files=Presentation.html)).
 
